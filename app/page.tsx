@@ -1,95 +1,55 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
+
+//app/page.tsx
+import { UserButton } from "@clerk/nextjs";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);  
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <UserButton afterSignOutUrl="/"/>
+
+      <header className="header py-6">
+        <div className="container mx-auto flex items-center justify-between px-4">
+          <div className="flex items-center">
+            <Image src="https://i.imgur.com/1mvD6xe.png" alt="Logo" width={isMobile ? 40 : 50} height={isMobile ? 40 : 50} className="logo" />
+            <h1 className="text-white text-lg md:text-xl lg:text-2xl ml-4 font-bold"><p className="text-blue-dark dark:text-white">FormWiz</p></h1>
+          </div>
+          <div className="space-x-2 flex items-center">
+            <button className="btn btn-ghost btn-sm lg:btn-md"><p className={`normal-case ${isMobile ? "text-base" : "text-lg"} font-semibold pb-0.5 font-medium text-black dark:text-white-dark`}>Login</p></button>
+            <button className={`btn ${isMobile ? 'btn-sm' : 'btn-wide'} lg:btn-md bg-primary hover:bg-primary-dark border-none`}><p className={`normal-case ${isMobile ? 'text-base' : 'text-lg'} text-white pb-0.5 font-medium`}>Get Started</p></button>
+          </div>
         </div>
+      </header>
+
+
+
+      <div className="container mx-auto py-4 px-4 flex">
+      <div className="bg-gray-200 p-4 grow">
+        <p>This is the first div beneath the header.</p>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="bg-gray-300 p-4 flex-1 ml-4 bg-cover bg-center aspect-[680/768]" style={{"backgroundImage": "url('https://i.imgur.com/EoF2u6j.png')"}}>
+        {/* <p>This is the first div beneath the header.</p> */}
+        {/* <Image src="https://i.imgur.com/EoF2u6j.png" alt="Logo" width={"1000"} height={"0"} className="logo" /> */}
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
+    </div>
   )
 }
